@@ -21,7 +21,13 @@ def pregunta_01():
     214
 
     """
-    return
+    with open("data.csv") as file:
+        suma = 0
+        for line in file:
+
+            suma+=int(line[2])
+
+    return suma
 
 
 def pregunta_02():
@@ -39,7 +45,14 @@ def pregunta_02():
     ]
 
     """
-    return
+    with open("data.csv") as file:
+        dictio = dict()
+        for line in file:
+
+            letter = line[0]
+            dictio[letter] = dictio.get(letter, 0) + 1
+
+    return sorted([tup for tup in dictio.items()], key= lambda x: x[0])
 
 
 def pregunta_03():
@@ -57,7 +70,15 @@ def pregunta_03():
     ]
 
     """
-    return
+    
+    with open("data.csv") as file:
+        dictio = dict()
+        for line in file:
+
+            letter = line[0]
+            dictio[letter] = dictio.get(letter, 0) + int(line[2])
+
+    return sorted([tup for tup in dictio.items()], key= lambda x: x[0])
 
 
 def pregunta_04():
@@ -82,7 +103,14 @@ def pregunta_04():
     ]
 
     """
-    return
+    with open("data.csv") as file:
+        d = dict()
+        for line in file:
+
+            month = line[9:11]
+            d[month] = d.get(month, 0)+1
+
+    return sorted([tup for tup in d.items()], key= lambda x: x[0])
 
 
 def pregunta_05():
@@ -100,7 +128,21 @@ def pregunta_05():
     ]
 
     """
-    return
+    with open("data.csv") as file:
+        d = dict()
+        for line in file:
+
+            char = line[0]
+            value = int(line[2])
+            d[char] = d.get(char, [0, float("inf")])
+
+            if d[char][0] < value:
+                d[char][0] = value
+
+            if d[char][1] > value:
+                d[char][1] = value
+    
+    return sorted([(tup[0], tup[1][0], tup[1][1]) for tup in d.items()], key= lambda x: x[0])
 
 
 def pregunta_06():
@@ -125,7 +167,26 @@ def pregunta_06():
     ]
 
     """
-    return
+    with open("data.csv") as file:
+        d = dict()
+        for line in file:
+
+            reversed_line = line[::-1]
+            dic = line[len(line) - reversed_line.find("\t"):]
+            items = dic.rstrip("\n").split(",")
+
+            for item in items:
+                char, value = item.split(":")
+                value = int(value)
+                d[char] = d.get(char, [0, float("inf")])
+
+                if d[char][0] < value:
+                    d[char][0] = value
+
+                if d[char][1] > value:
+                    d[char][1] = value
+
+    return sorted([(tup[0], tup[1][1], tup[1][0]) for tup in d.items()], key= lambda x: x[0])
 
 
 def pregunta_07():
@@ -149,7 +210,16 @@ def pregunta_07():
     ]
 
     """
-    return
+    with open("data.csv") as file:
+        d = dict()
+        for line in file:
+
+            char = line[0]
+            value = int(line[2])
+
+            d.setdefault(value, list()).append(char)
+
+    return sorted([tup for tup in d.items()], key= lambda x: x[0])
 
 
 def pregunta_08():
@@ -174,7 +244,16 @@ def pregunta_08():
     ]
 
     """
-    return
+    with open("data.csv") as file:
+        d = dict()
+        for line in file:
+
+            char = line[0]
+            value = int(line[2])
+
+            d.setdefault(value, set()).add(char)
+
+    return sorted([(tup[0], sorted(list(tup[1]))) for tup in d.items()], key= lambda x: x[0])
 
 
 def pregunta_09():
@@ -197,7 +276,20 @@ def pregunta_09():
     }
 
     """
-    return
+    with open("data.csv") as file:
+        d = dict()
+        for line in file:
+
+            reversed_line = line[::-1]
+            dic = line[len(line) - reversed_line.find("\t"):]
+            items = dic.rstrip("\n").split(",")
+
+            for item in items:
+                char, value = item.split(":")
+                value = int(value)
+                d[char] = d.get(char, 0) + 1
+
+    return d
 
 
 def pregunta_10():
@@ -218,7 +310,18 @@ def pregunta_10():
 
 
     """
-    return
+    with open("data.csv") as file:
+        res = list()
+        for line in file:
+
+            reversed_line = line[::-1]
+
+            char = line[0]
+            col4 = line[15:line[16:].find("\t")+16]
+            col5 = line[len(line) - reversed_line.find("\t"):]
+
+            res.append((char, len(col4.split(",")), len(col5.split(","))))
+    return res
 
 
 def pregunta_11():
@@ -239,7 +342,16 @@ def pregunta_11():
 
 
     """
-    return
+    with open("data.csv") as file:
+        d = dict()
+        for line in file:
+
+            val = int(line[2])
+            col4 = line[15:line[16:].find("\t")+16]
+
+            for letra in col4.split(","):
+                d[letra] = d.get(letra, 0)+val
+    return d
 
 
 def pregunta_12():
@@ -257,4 +369,17 @@ def pregunta_12():
     }
 
     """
-    return
+    with open("data.csv") as file:
+        d = dict()
+        for line in file:
+
+            reversed_line = line[::-1]
+            char = line[0]
+            col5 = line[len(line) - reversed_line.find("\t"):]
+
+            for item in col5.split(","):
+
+                val = int(item.split(":")[1])
+                d[char] = d.get(char, 0) + val
+    
+    return d
